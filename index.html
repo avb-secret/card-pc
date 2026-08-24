@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVB FanClub - Agenzia Viaggiare Bene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-dark: #0a3258;
+            --accent: #e5a93c;
+            --accent-hover: #d4972b;
+            --bg-light: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --card-gold-start: #1a2a3a;
+            --card-gold-end: #0f172a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+
+        /* Navigation */
+        nav {
+            background: #ffffff; border-bottom: 1px solid var(--border); padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
+        }
+        .logo-agency-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--primary); }
+        .logo-agency-link img { max-height: 48px; width: auto; }
+        .logo-agency-text { font-weight: 800; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-portal { background: var(--primary); color: white; padding: 0.6rem 1.2rem; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; }
+
+        /* Hero */
+        .hero { padding: 4rem 5% 5rem; background: linear-gradient(135deg, #0f4c81 0%, #082946 100%); color: white; text-align: center; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 1rem; }
+        .hero-subtitle { font-size: 1.15rem; max-width: 650px; margin: 0 auto 3rem; opacity: 0.9; font-weight: 300; }
+
+        /* Card Component */
+        .card-container { perspective: 1000px; display: inline-block; margin-bottom: 2rem; cursor: pointer; }
+        .avb-card {
+            width: 380px; height: 230px; background: linear-gradient(135deg, var(--card-gold-start), var(--card-gold-end));
+            border-radius: 20px; padding: 1.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 1px solid rgba(229, 169, 60, 0.4);
+            position: relative; text-align: left; display: flex; flex-direction: column; justify-content: space-between; color: white; margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+        .avb-card:hover { transform: translateY(-5px); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card-brand { font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
+        .card-chip { width: 45px; height: 32px; background: linear-gradient(135deg, #e5a93c, #f7d08a); border-radius: 6px; }
+        .card-number { font-family: monospace; font-size: 1.25rem; letter-spacing: 3px; color: rgba(255,255,255,0.9); }
+        .card-tier { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .card-holder { font-size: 0.85rem; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+        /* Container & Features */
+        .container { max-width: 1100px; margin: -40px auto 4rem; padding: 0 1.5rem; position: relative; z-index: 10; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+        .feature-card { background: var(--card-bg); padding: 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); text-align: center; }
+        .icon-box { width: 60px; height: 60px; background: rgba(15, 76, 129, 0.08); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1.2rem; font-weight: bold; }
+
+        /* Calculator Widget */
+        .calc-wrapper { background: white; border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 4rem; text-align: center; }
+        .calc-box { max-width: 500px; margin: 1.5rem auto 0; display: flex; flex-direction: column; gap: 1rem; }
+        .calc-input-group { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; }
+        .calc-input-group span { padding: 0.75rem 1rem; background: #e2e8f0; font-weight: 700; color: var(--primary); }
+        .calc-input-group input { border: none; background: transparent; padding: 0.75rem 1rem; font-size: 1.1rem; width: 100%; outline: none; }
+        .calc-result { margin-top: 1rem; font-size: 1.2rem; font-weight: 700; color: var(--primary); padding: 1rem; background: rgba(229, 169, 60, 0.15); border-radius: 12px; }
+
+        /* Steps & Sections */
+        .section-title { text-align: center; margin-bottom: 2rem; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        .steps-container { background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 4rem; }
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+        .step-number { font-size: 2.5rem; font-weight: 800; color: var(--accent); opacity: 0.8; margin-bottom: 0.5rem; }
+
+        /* Rewards Table */
+        .rewards-table-wrapper { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 4rem; }
+        .search-rewards { width: 100%; max-width: 400px; margin: 0 auto 1.5rem; display: block; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: #f8fafc; color: var(--primary); font-weight: 700; }
+        .badge-points { background: rgba(229, 169, 60, 0.15); color: #b37b12; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem; }
+
+        /* CTA */
+        .cta-banner { background: linear-gradient(135deg, #1a2a3a 0%, #0f4c81 100%); border-radius: 20px; padding: 3.5rem 2rem; text-align: center; color: white; }
+        .btn-cta { background: var(--accent); color: #1a2a3a; padding: 0.9rem 2.2rem; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-block; margin-top: 1rem; border: none; cursor: pointer; }
+
+        /* Hidden Logic */
+        #dashboardSection, #staffSection { display: none; padding-top: 2rem; }
+
+        /* Staff Portal Specific */
+        .staff-badge { background: #2b6cb0; color: white; padding: 0.3rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+        .staff-box { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 2rem; }
+        .form-row { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+        .form-row input, .form-row select { flex: 1; min-width: 180px; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; outline: none; background: white; }
+        .btn-add-pts { background: #276749; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
+        /* Dashboard Styles */
+        .dashboard-header { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border); }
+        .stat-card h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+        .stat-card .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .btn-logout { background: #e53e3e; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 30px; font-weight: 600; cursor: pointer; }
+
+        /* Login Modal */
+        .login-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; }
+        .login-box { background: white; border-radius: 24px; padding: 2.5rem 2rem; width: 100%; max-width: 420px; text-align: center; position: relative; }
+        .close-btn { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .form-group { text-align: left; margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .form-group input { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; outline: none; }
+        .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 0.85rem; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--primary-dark); color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: none; z-index: 2000; font-weight: 600; }
+
+        footer { background: #ffffff; border-top: 1px solid var(--border); padding: 3rem 5% 2rem; margin-top: 4rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="https://agenzia-viaggiare-bene.my.canva.site/avbviaggi" target="_blank" class="logo-agency-link">
+            <img src="https://i.ibb.co/zh58DqPH/logo.png" alt="Logo Agenzia Viaggiare Bene">
+            <span class="logo-agency-text">Agenzia Viaggiare Bene</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#vantaggi">Vantaggi</a></li>
+            <li><a href="#calcolatore">Calcolatore</a></li>
+            <li><a href="#come-funziona">Come Funziona</a></li>
+            <li><a href="#premi">Premi</a></li>
+        </ul>
+        <button id="authBtn" onclick="openLogin()" class="btn-portal">Area Riservata</button>
+    </nav>
+
+    <!-- LANDING CLIENTE -->
+    <div id="landingWrapper">
+        <section class="hero">
+            <h1 class="hero-title">Ogni viaggio ti premia con AVB FanClub</h1>
+            <p class="hero-subtitle">Entra nell'esclusivo programma fedeltà firmato <strong>Agenzia Viaggiare Bene</strong>.</p>
+            <div class="card-container" onclick="openLogin()">
+                <div class="avb-card">
+                    <div class="card-top">
+                        <div class="card-brand">AVB FANCLUB</div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-number">8842 •••• •••• 1092</div>
+                    <div class="card-tier">GOLD MEMBER</div>
+                    <div class="card-bottom">
+                        <div class="card-holder">CLIENTE DEMO</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Vantaggi Grid -->
+            <section id="vantaggi" class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-box">€</div>
+                    <h3>1€ = 1 Punto</h3>
+                    <p>Ogni euro speso per i tuoi pacchetti viaggio si trasforma in punti fedeltà nel tuo conto.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">🎁</div>
+                    <h3>Sconti Esclusivi</h3>
+                    <p>Riscatta i tuoi punti accumulati per ottenere voucher sconto sulle prossime prenotazioni.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">⭐</div>
+                    <h3>Vantaggi VIP</h3>
+                    <p>Accesso prioritario alle promozioni speciali, upgrade gratuiti e assistenza dedicata.</p>
+                </div>
+            </section>
+
+            <!-- Calcolatore Punti -->
+            <section id="calcolatore" class="calc-wrapper">
+                <div class="section-title">
+                    <h2>Calcola i Tuoi Punti</h2>
+                    <p>Inserisci l'importo stimato del tuo prossimo viaggio per scoprire i punti che guadagnerai!</p>
+                </div>
+                <div class="calc-box">
+                    <div class="calc-input-group">
+                        <span>€</span>
+                        <input type="number" id="calcInput" placeholder="Inserisci spesa (es. 1200)" oninput="calculatePoints()">
+                    </div>
+                    <div class="calc-result" id="calcResult">Inserisci una cifra per iniziare la simulazione</div>
+                </div>
+            </section>
+
+            <!-- Come Funziona -->
+            <section id="come-funziona" class="steps-container">
+                <div class="section-title">
+                    <h2>Come Funziona il Club</h2>
+                    <p>Bastano pochi passaggi per iniziare a risparmiare sui tuoi viaggi</p>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">01</div>
+                        <h4>Iscriviti Gratis</h4>
+                        <p>Richiedi la tua tessera virtuale accedendo all'area riservata.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">02</div>
+                        <h4>Prenota & Accumula</h4>
+                        <p>Mostra la tua card AVB FanClub ad ogni acquisto in agenzia.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">03</div>
+                        <h4>Sblocca Livelli</h4>
+                        <p>Raggiungi le soglie per accedere a privilegi ed esperienze VIP.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">04</div>
+                        <h4>Goditi i Premi</h4>
+                        <p>Converti i punti accumulati in voucher e riparti subito!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Catalogo Premi -->
+            <section id="premi" class="rewards-table-wrapper">
+                <div class="section-title">
+                    <h2>Catalogo Sintetico Premi</h2>
+                    <p>Cerca il premio perfetto per il tuo prossimo itinerario</p>
+                </div>
+                <input type="text" id="searchRewards" class="search-rewards" placeholder="Cerca premio (es. Hotel, 500...)" onkeyup="filterRewards()">
+                <table id="rewardsTable">
+                    <thead>
+                        <tr>
+                            <th>Premio / Voucher</th>
+                            <th>Requisito Punti</th>
+                            <th>Valore Vantaggio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Buono Sconto Weekend</td>
+                            <td><span class="badge-points">500 Punti</span></td>
+                            <td>50 € sconto su soggiorni breve durata</td>
+                        </tr>
+                        <tr>
+                            <td>Upgrade Gratuito Hotel</td>
+                            <td><span class="badge-points">1.000 Punti</span></td>
+                            <td>Passaggio a camera di categoria superior</td>
+                        </tr>
+                        <tr>
+                            <td>Voucher Sconto Vacanza Completa</td>
+                            <td><span class="badge-points">2.500 Punti</span></td>
+                            <td>300 € sconto su pacchetti volo + hotel</td>
+                        </tr>
+                        <tr>
+                            <td>Accesso VIP Lounge Aeroporto</td>
+                            <td><span class="badge-points">3.500 Punti</span></td>
+                            <td>Ingresso gratuito per 2 persone</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- CTA Banner -->
+            <section class="cta-banner">
+                <h2>Pronto a Partire con Noi?</h2>
+                <p>Accedi subito per sbloccare la tua tessera digitale personale e vedere il saldo punti aggiornato!</p>
+                <button onclick="openLogin()" class="btn-cta">Accedi Ora</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- DASHBOARD CLIENTE -->
+    <div id="dashboardSection" class="container">
+        <div class="dashboard-header">
+            <div>
+                <h2>Benvenuto, <span id="dashUserName">Cliente</span>!</h2>
+                <p>Pannello di gestione della tua Card Personale AVB FanClub</p>
+            </div>
+            <button onclick="logout()" class="btn-logout">Esci / Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Saldo Punti</h4>
+                <div class="stat-value" id="userPointsDisplay">Caricamento...</div>
+                <small style="color: #38a169;">Sincronizzato Cloud Firebase</small>
+            </div>
+            <div class="stat-card">
+                <h4>Livello Membership</h4>
+                <div class="stat-value" id="dashUserTierDisplay" style="color: var(--accent);">GOLD</div>
+                <small>Status Attivo</small>
+            </div>
+            <div class="stat-card">
+                <h4>Prossimo Premio</h4>
+                <div class="stat-value">500 PTS</div>
+                <small>Buono Sconto Weekend 50€</small>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 3rem 0;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">La Tua Carta Virtuale Personale</h3>
+            <div class="card-container" onclick="copyCardNumber()" title="Clicca per copiare il numero">
+                <div class="avb-card">
+                    <div class="card-top">
+                        <div class="card-brand">AVB FANCLUB</div>
+                        <div class="card-chip"></div>
+                    </div>
+                    <div class="card-number" id="dashCardNumber">0000 0000 0000 0000</div>
+                    <div class="card-tier" id="dashCardTier">GOLD MEMBER</div>
+                    <div class="card-bottom">
+                        <div class="card-holder" id="dashCardHolder">NOME COGNOME</div>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">Clicca sulla tessera per copiare il tuo numero unico.</p>
+        </div>
+    </div>
+
+    <!-- PORTALE STAFF SEGRETO (#staff) -->
+    <div id="staffSection" class="container">
+        <div class="dashboard-header">
+            <div>
+                <h2>Pannello Gestione Staff <span class="staff-badge">FIREBASE CLOUD</span></h2>
+                <p>Gestisci accrediti, livelli e visualizza l'elenco clienti in tempo reale</p>
+            </div>
+            <button onclick="logout()" class="btn-logout">Esci Staff</button>
+        </div>
+
+        <!-- BOX ACCREDITO / SCALATA PUNTI E CAMBIO LIVELLO -->
+        <div class="staff-box">
+            <h3>Gestione Cliente Singolo</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Inserisci il Numero Carta per modificare punti o livello.</p>
+            
+            <form onsubmit="handleStaffUpdateUser(event)" class="form-row">
+                <input type="text" id="staffCardInput" placeholder="Numero Carta (es. 1234 5678 9012 3456)" required>
+                <input type="number" id="staffAmountInput" placeholder="Punti da aggiungere (es. 500 o -200)">
+                
+                <select id="staffTierInput">
+                    <option value="">-- Nessun cambio livello --</option>
+                    <option value="BRONZE">BRONZE MEMBER</option>
+                    <option value="SILVER">SILVER MEMBER</option>
+                    <option value="GOLD">GOLD MEMBER</option>
+                    <option value="VIP">VIP MEMBER</option>
+                </select>
+
+                <button type="submit" class="btn-add-pts">Aggiorna su Cloud</button>
+            </form>
+        </div>
+
+        <!-- TABELLA LIVE: ELENCO TUTTI I CLIENTI -->
+        <div class="staff-box" style="margin-top: 2rem;">
+            <h3>Anagrafica Clienti Sincronizzata</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Elenco automatico di tutti gli utenti nel database Realtime.</p>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8fafc; text-align: left;">
+                            <th style="padding: 0.75rem;">Nome Cliente</th>
+                            <th style="padding: 0.75rem;">Numero Carta</th>
+                            <th style="padding: 0.75rem;">Punti</th>
+                            <th style="padding: 0.75rem;">Livello</th>
+                        </tr>
+                    </thead>
+                    <tbody id="staffUsersTableBody">
+                        <tr><td colspan="4" style="padding: 1rem; text-align: center;">Caricamento clienti...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-box">
+            <button onclick="closeLogin()" class="close-btn">&times;</button>
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--primary-dark);">Accedi al Club</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Inserisci i tuoi dati per accedere alla tessera e ai punti</p>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Indirizzo Email</label>
+                    <input type="email" id="email" placeholder="mario.rossi@esempio.it" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">Accedi alla Dashboard</button>
+            </form>
+
+            <!-- TESTO REGISTRAZIONE CARD -->
+            <p style="margin-top: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+                Non hai la card AVB? 
+                <a href="INSERISCI_QUI_IL_TUO_LINK" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Clicca qui per registrarti</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <footer>
+        <p>© 2026 <strong>Agenzia Viaggiare Bene</strong>. Tutti i diritti riservati.</p>
+    </footer>
+
+    <!-- LIBRERIE FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <script>
+        // CONFIGURAZIONE FIREBASE (Incolla qui l'oggetto copiato da Firebase
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBcFiAvM-RCxI5EjNpUtcLi41Tvjf8LVBE",
+    authDomain: "avb-fanclub.firebaseapp.com",
+    databaseURL: "https://avb-fanclub-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "avb-fanclub",
+    storageBucket: "avb-fanclub.firebasestorage.app",
+    messagingSenderId: "1066552373382",
+    appId: "1:1066552373382:web:aa17754da100cf07c86107",
+    measurementId: "G-KYR9RT8WWH"
+  };
+
+  
+        // Inizializzazione Database Cloud
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let activeEmailKey = "";
+
+        window.addEventListener('load', checkUrlHash);
+        window.addEventListener('hashchange', checkUrlHash);
+
+        function checkUrlHash() {
+            if (window.location.hash === '#staff') {
+                document.getElementById('landingWrapper').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'none';
+                document.getElementById('staffSection').style.display = 'block';
+                document.getElementById('authBtn').style.display = 'none';
+                
+                loadStaffUsersTable();
+                showToast("Accesso Portale Staff eseguito!");
+            }
+        }
+
+        function openLogin() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        }
+
+        function generateRandomCardNumber() {
+            let res = '';
+            for (let i = 0; i < 4; i++) {
+                res += Math.floor(1000 + Math.random() * 9000) + (i < 3 ? ' ' : '');
+            }
+            return res;
+        }
+
+        function extractNameFromEmail(email) {
+            if (!email || !email.includes('@')) return "Cliente VIP";
+            const username = email.split('@')[0];
+            return username.split(/[\._\-]/).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+        }
+
+        // LOGIN CON SINCRONIZZAZIONE FIREBASE
+        function handleLogin(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('email').value.trim();
+            const passwordInput = document.getElementById('password').value;
+            const fullName = extractNameFromEmail(emailInput);
+            
+            activeEmailKey = emailInput.replace(/\./g, '_');
+
+            const userRef = db.ref('carte/' + activeEmailKey);
+
+            userRef.once('value').then(snapshot => {
+                let data = snapshot.val();
+                if (!data) {
+                    // Primo accesso: Crea utente nel Cloud con livello GOLD base
+                    data = {
+                        nome: fullName,
+                        cardNum: generateRandomCardNumber(),
+                        punti: 100,
+                        livello: "GOLD"
+                    };
+                    userRef.set(data);
+                }
+
+                // Aggiorna elementi a schermo
+                document.getElementById('dashUserName').innerText = data.nome;
+                document.getElementById('dashCardHolder').innerText = data.nome;
+                document.getElementById('dashCardNumber').innerText = data.cardNum;
+                document.getElementById('userPointsDisplay').innerText = (data.punti || 0) + " PTS";
+                document.getElementById('dashUserTierDisplay').innerText = data.livello || "GOLD";
+                document.getElementById('dashCardTier').innerText = (data.livello || "GOLD") + " MEMBER";
+
+                // ASCOLTO LIVE
+                userRef.on('value', liveSnapshot => {
+                    const liveData = liveSnapshot.val();
+                    if(liveData) {
+                        document.getElementById('userPointsDisplay').innerText = (liveData.punti || 0) + " PTS";
+                        if (liveData.livello) {
+                            document.getElementById('dashUserTierDisplay').innerText = liveData.livello;
+                            document.getElementById('dashCardTier').innerText = liveData.livello + " MEMBER";
+                        }
+                    }
+                });
+
+                document.getElementById('landingWrapper').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                document.getElementById('authBtn').style.display = 'none';
+
+                closeLogin();
+                showToast("Sincronizzato con Cloud Firebase!");
+            });
+        }
+
+        // GESTIONE STAFF: AGGIORNA PUNTI E LIVELLO
+        function handleStaffUpdateUser(e) {
+            e.preventDefault();
+            const searchCard = document.getElementById('staffCardInput').value.trim();
+            const pointsInput = document.getElementById('staffAmountInput').value;
+            const selectedTier = document.getElementById('staffTierInput').value;
+
+            if (!searchCard) {
+                showToast("Inserisci il numero carta!");
+                return;
+            }
+
+            db.ref('carte').once('value').then(snapshot => {
+                const allUsers = snapshot.val();
+                let foundKey = null;
+
+                for (let key in allUsers) {
+                    if (allUsers[key].cardNum === searchCard) {
+                        foundKey = key;
+                        break;
+                    }
+                }
+
+                if (foundKey) {
+                    const updates = {};
+                    
+                    if (pointsInput !== "") {
+                        const pointsToAdd = parseInt(pointsInput);
+                        const currentPts = allUsers[foundKey].punti || 0;
+                        updates['punti'] = Math.max(0, currentPts + pointsToAdd);
+                    }
+
+                    if (selectedTier !== "") {
+                        updates['livello'] = selectedTier;
+                    }
+
+                    if (Object.keys(updates).length === 0) {
+                        showToast("Inserisci i punti o seleziona un livello!");
+                        return;
+                    }
+
+                    db.ref('carte/' + foundKey).update(updates).then(() => {
+                        showToast("Cliente aggiornato con successo!");
+                        document.getElementById('staffAmountInput').value = '';
+                        document.getElementById('staffTierInput').value = '';
+                    });
+                } else {
+                    showToast("Carta non trovata nel sistema!");
+                }
+            });
+        }
+
+        // TABELLA LIVE CLIENTI NEL PANNELLO STAFF
+        function loadStaffUsersTable() {
+            db.ref('carte').on('value', snapshot => {
+                const allUsers = snapshot.val();
+                const tbody = document.getElementById('staffUsersTableBody');
+                tbody.innerHTML = '';
+
+                if (!allUsers) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="padding: 1rem; text-align: center;">Nessun cliente registrato.</td></tr>';
+                    return;
+                }
+
+                for (let key in allUsers) {
+                    const user = allUsers[key];
+                    const row = document.createElement('tr');
+                    row.style.borderBottom = '1px solid var(--border)';
+                    row.innerHTML = `
+                        <td style="padding: 0.75rem; font-weight: 600;">${user.nome || 'N/D'}</td>
+                        <td style="padding: 0.75rem; font-family: monospace;">${user.cardNum || 'N/D'}</td>
+                        <td style="padding: 0.75rem;"><span class="badge-points">${user.punti || 0} PTS</span></td>
+                        <td style="padding: 0.75rem; font-weight: 700; color: var(--accent);">${user.livello || 'GOLD'}</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function logout() {
+            window.location.hash = '';
+            document.getElementById('landingWrapper').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('staffSection').style.display = 'none';
+            document.getElementById('authBtn').style.display = 'block';
+            showToast("Logout effettuato.");
+        }
+
+        function copyCardNumber() {
+            navigator.clipboard.writeText(document.getElementById('dashCardNumber').innerText);
+            showToast("Numero Card copiato!");
+        }
+
+        function calculatePoints() {
+            const val = parseFloat(document.getElementById('calcInput').value);
+            const res = document.getElementById('calcResult');
+            if (isNaN(val) || val <= 0) {
+                res.innerHTML = "Inserisci una cifra per iniziare la simulazione";
+                return;
+            }
+            const points = Math.floor(val);
+            let reward = "Nessun premio sbloccato ancora.";
+            if (points >= 3500) reward = "Accesso VIP Lounge Aeroporto 🛫";
+            else if (points >= 2500) reward = "Voucher Sconto 300€ 🏖️";
+            else if (points >= 1000) reward = "Upgrade Gratuito Hotel 🏨";
+            else if (points >= 500) reward = "Buono Sconto Weekend 50€ 🎟️";
+
+            res.innerHTML = `Con <strong>${val} €</strong> guadagni <strong>${points} Punti</strong>!<br><small>Premio sbloccabile: ${reward}</small>`;
+        }
+
+        function filterRewards() {
+            const input = document.getElementById('searchRewards').value.toLowerCase();
+            const rows = document.querySelectorAll('#rewardsTable tbody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
